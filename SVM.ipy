@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jul 30 10:19:30 2020
+
+@author: dell
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+from sklearn.model_selection import train_test_split
+from sklearn import svm
+
+data=pd.read_csv("Fresh_Data.csv")
+data.drop(["Timing","Unnamed: 14"],axis=1,inplace=True)
+data.head()
+
+data=pd.get_dummies(data,drop_first=True)
+data.head()
+
+X_new=data.drop("Sleeping",axis=1)
+X_new=X_new.drop("Accelerometer_Mean",axis=1)
+X_new=X_new.drop("Light sensor std",axis=1)
+X_new=X_new.drop("Accelerometr_Std_Z",axis=1)
+X_new=X_new.drop("Accelerometr_Std_Y",axis=1)
+X_new=X_new.drop("Accelerometr_Std_X",axis=1)
+X_new=X_new.drop("Accelerometr_Z",axis=1)
+X_new=X_new.drop("Accelerometr_Y",axis=1)
+X_new=X_new.drop("Accelerometr_X",axis=1)
+y=data["Sleeping"]
+
+random_state=np.random.RandomState(0)
+X_train,X_test,y_train,y_test=train_test_split(X_new,y,test_size=.5,random_state=random_state)
+classifier=svm.LinearSVC(random_state=random_state)
+classifier.fit(X_train,y_train)
+y_pred=classifier.predict(X_test)
+y_score=classifier.decision_function(X_test)
+
+from sklearn.metrics import average_precision_score,accuracy_score,precision_recall_fscore_support as score
+average_precision=average_precision_score(y_test,y_pred)
+print('Average precision-recall score: {0:0.2f}'.format(
+      average_precision))
+
+precision, recall, fscore, support = score(y_test, y_pred)
+
+print('precision: {}'.format(precision))
+print('recall: {}'.format(recall))
+print('fscore: {}'.format(fscore))
+print('support: {}'.format(support))
+print(accuracy_score(y_test,y_pred)*100)

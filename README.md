@@ -1,0 +1,2 @@
+# Battery-Usage-and-Sleep-Pattern-Detection
+Through this project, our main motive is to design an intelligent method through which the device (a mobile in this case) can predict on its own the user sleep pattern. When would the user sleep or just stop using his phone and hence from these idle hours, one could predict the most suitable time for charging the device. So the main concern of this project was first to get hold of data acquired, from different users, that would help us figure out the exact time slabs in which the users did not use their phone. 
